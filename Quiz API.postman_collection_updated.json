@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "fd9ab114-1667-4709-a02c-22330ebdb9c9",
+		"name": "Quiz API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20752813"
+	},
+	"item": [
+		{
+			"name": "GET /quiz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is a List\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");",
+							"});",
+							"",
+							"pm.test(\"List isn't empty\", function () {",
+							"    var quizList = pm.response.json();",
+							"    pm.expect(quizList.length).to.be.greaterThan(0);",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0]).to.haveOwnProperty(\"id\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/quiz",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /quiz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"id\");",
+							"});",
+							"",
+							"pm.test(\"Response returns questions in quiz\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"questions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Downtown Quiz\",\r\n    \"questions\": [\r\n        {\r\n            \"text\": \"Who is Alex's sister?\",\r\n            \"answers\": [\r\n                {\r\n                    \"text\": \"Mecca\",\r\n                    \"correct\": \"false\"\r\n                },\r\n                {\r\n                    \"text\": \"Chaka\",\r\n                    \"correct\": \"true\"\r\n                },\r\n                {\r\n                    \"text\": \"Jen\",\r\n                    \"correct\": \"false\"\r\n                },\r\n                {\r\n                    \"text\": \"Serena\",\r\n                    \"correct\": \"false\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"text\": \"What's the title of the first episode?\",\r\n            \"answers\": [\r\n                {\r\n                    \"text\": \"Train Pain\",\r\n                    \"correct\": \"false\"\r\n                },\r\n                {\r\n                    \"text\": \"Hot Spot\",\r\n                    \"correct\": \"false\"\r\n                },\r\n                {\r\n                    \"text\": \"Sin Bin\",\r\n                    \"correct\": \"true\"\r\n                },\r\n                {\r\n                    \"text\": \"The Con\",\r\n                    \"correct\": \"false\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/quiz",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /quiz/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"id\");",
+							"});",
+							"",
+							"pm.test(\"Response quiz id matches path variable '2'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"Response returns questions in quiz\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"questions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/quiz/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /quiz/{id}/rename/{newName}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"id\");",
+							"});",
+							"",
+							"pm.test(\"Response quiz id matches path variable '1'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"Response returns questions in quiz\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"questions\");",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"name\");",
+							"});",
+							"",
+							"pm.test(\"Response quiz updated name matches path variable 'Quiz Number One'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Quiz Number One\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/quiz/1/rename/Quiz Number One",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz",
+						"1",
+						"rename",
+						"Quiz Number One"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /quiz/{id}/random",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response returns question from quiz with id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"id\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response returns answers in question\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"answers\");",
+							"});",
+							"",
+							"pm.test(\"Response returns question text\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"text\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/quiz/43/random",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz",
+						"43",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /quiz/{id}/add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"id\");",
+							"});",
+							"",
+							"pm.test(\"Response quiz id matches path variable '43'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(43);",
+							"});",
+							"",
+							"pm.test(\"Response returns questions in quiz\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"questions\");",
+							"});",
+							"",
+							"pm.test(\"Response returns quiz name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"name\");",
+							"});",
+							"",
+							"pm.test(\"Response quiz updated name matches path variable 'Quiz Number One'\", function () {",
+							"    var questionText = \"What's Matt's graffiti tag?\"",
+							"    var jsonData = pm.response.json();",
+							"    var lastIndex = jsonData.questions.length - 1",
+							"    pm.expect(jsonData.questions[lastIndex].text).to.eql(questionText);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"What's Matt's graffiti tag?\",\r\n    \"answers\": \r\n    [\r\n        {\r\n            \"text\": \"Minus\",\r\n            \"correct\": \"true\"\r\n        },\r\n        {\r\n            \"text\": \"Captain\",\r\n            \"correct\": \"false\"\r\n        },\r\n        {\r\n            \"text\": \"G.O.A.T.\",\r\n            \"correct\": \"false\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/quiz/43/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz",
+						"43",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /quiz/{id}/delete/{questionId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/quiz/1/delete/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz",
+						"1",
+						"delete",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
